@@ -1,0 +1,22 @@
+{
+  "version": 8,
+  "name": "Espresso Protomaps (Raster)",
+  "sources": {
+    "protomaps": {
+      "type": "raster",
+      "tiles": [
+        "https://tilea.protomaps.com/raster/v2/{z}/{x}/{y}.png?key=YOUR_PROTOMAPS_KEY"
+      ],
+      "tileSize": 256,
+      "attribution": "&copy; Protomaps contributors"
+    }
+  },
+  "layers": [
+    {
+      "id": "basemap",
+      "type": "raster",
+      "source": "protomaps"
+    }
+  ]
+}
+
