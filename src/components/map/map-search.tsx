@@ -55,9 +55,20 @@ export default function MapSearch() {
         const res = await fetch(url);
         const data = await res.json();
 
+        type PhotonFeature = {
+          geometry: { coordinates: [number, number] };
+          properties: Record<string, unknown>;
+        };
         const features: LocationFeature[] = (data?.features || []).map(
-          (f: any, idx: number) => {
-            const props = f.properties || {};
+          (f: PhotonFeature, idx: number) => {
+            const props = f.properties as Record<string, unknown> & {
+              name?: string;
+              street?: string;
+              housenumber?: string;
+              city?: string; town?: string; village?: string;
+              state?: string; postcode?: string; country?: string;
+              osm_value?: string; osm_key?: string; osm_id?: string | number;
+            };
             const name: string = props.name || props.street || "Unknown";
             // Compose a friendly place string
             const parts = [

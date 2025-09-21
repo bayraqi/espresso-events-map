@@ -56,7 +56,9 @@ export function LocationPopup({ location, onClose }: LocationPopupProps) {
     >
       <div className="w-[300px] sm:w-[350px]">
         {(() => {
-          const img = (properties?.metadata as any)?.image || (properties?.external_ids as any)?.image;
+          const meta = properties?.metadata as (Record<string, unknown> & { image?: string }) | undefined;
+          const exIds = properties?.external_ids as (Record<string, string> & { image?: string }) | undefined;
+          const img = meta?.image || exIds?.image;
           return img ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={img} alt={name} className="w-full h-32 object-cover rounded-md mb-3" />

@@ -32,7 +32,7 @@ function trySetPaint(
   map: mapboxgl.Map,
   layerId: string,
   prop: string,
-  value: any
+  value: unknown
 ) {
   try {
     if (map.getLayer(layerId)) {

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import type { PaddingOptions } from "mapbox-gl";
 import { listEventLocations } from "@/lib/events/utils";
 import type { EventLocation } from "@/lib/events/types";
 import EventMarker from "@/components/events/event-marker";
@@ -47,9 +48,10 @@ export default function EventOverlay() {
       setPanelSide(side);
       setSelectedEvent(ev);
 
-      const padding = { top: 24, bottom: 24, left: 24, right: 24 } as const;
-      const sideKey = side === "right" ? "right" : "left";
-      const newPadding = { ...padding, [sideKey]: panelWidth + 24 } as any;
+      const basePadding = { top: 24, bottom: 24, left: 24, right: 24 } as const;
+      const newPadding: PaddingOptions = { ...basePadding };
+      if (side === "right") newPadding.right = panelWidth + 24;
+      else newPadding.left = panelWidth + 24;
       const offsetX = side === "right" ? -panelWidth / 4 : panelWidth / 4;
 
       map.easeTo({
@@ -60,7 +62,7 @@ export default function EventOverlay() {
         zoom: Math.max(map.getZoom(), 10),
       });
     },
-    [map]
+    [map, panelWidth]
   );
 
   const closePanel = useCallback(() => {
