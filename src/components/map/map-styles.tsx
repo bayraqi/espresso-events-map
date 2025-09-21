@@ -26,11 +26,31 @@ export default function MapStyles() {
   const styleOptions = useMemo<StyleOption[]>(() => {
     const options: StyleOption[] = [];
     const defaults: Array<[string, string | undefined, React.ReactNode]> = [
-      ["Default", process.env.NEXT_PUBLIC_MAP_STYLE_URL, <MapIcon className="w-5 h-5" />],
-      ["Alt 1", process.env.NEXT_PUBLIC_MAP_STYLE_URL_ALT1, <SunIcon className="w-5 h-5" />],
-      ["Alt 2", process.env.NEXT_PUBLIC_MAP_STYLE_URL_ALT2, <MoonIcon className="w-5 h-5" />],
-      ["Terrain", process.env.NEXT_PUBLIC_MAP_STYLE_URL_TERRAIN, <TreesIcon className="w-5 h-5" />],
-      ["Satellite", process.env.NEXT_PUBLIC_MAP_STYLE_URL_SATELLITE, <SatelliteIcon className="w-5 h-5" />],
+      [
+        "Default",
+        process.env.NEXT_PUBLIC_MAP_STYLE_URL,
+        <MapIcon key="icon-default" className="w-5 h-5" />,
+      ],
+      [
+        "Alt 1",
+        process.env.NEXT_PUBLIC_MAP_STYLE_URL_ALT1,
+        <SunIcon key="icon-alt1" className="w-5 h-5" />,
+      ],
+      [
+        "Alt 2",
+        process.env.NEXT_PUBLIC_MAP_STYLE_URL_ALT2,
+        <MoonIcon key="icon-alt2" className="w-5 h-5" />,
+      ],
+      [
+        "Terrain",
+        process.env.NEXT_PUBLIC_MAP_STYLE_URL_TERRAIN,
+        <TreesIcon key="icon-terrain" className="w-5 h-5" />,
+      ],
+      [
+        "Satellite",
+        process.env.NEXT_PUBLIC_MAP_STYLE_URL_SATELLITE,
+        <SatelliteIcon key="icon-satellite" className="w-5 h-5" />,
+      ],
     ];
     let i = 0;
     for (const [label, url, icon] of defaults) {

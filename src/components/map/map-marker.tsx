@@ -4,7 +4,6 @@ import mapboxgl, { MarkerOptions } from "mapbox-gl";
 import React, { useEffect, useRef } from "react";
 
 import { useMap } from "@/context/map-context";
-import { LocationFeature } from "@/lib/mapbox/utils";
 
 type Props<T = unknown> = {
   longitude: number;
@@ -44,24 +43,24 @@ export default function Marker<T = unknown>({
 }: Props<T>) {
   const { map } = useMap();
   const markerRef = useRef<HTMLDivElement | null>(null);
-  let marker: mapboxgl.Marker | null = null;
+  const markerObjRef = useRef<mapboxgl.Marker | null>(null);
 
   const handleHover = (isHovered: boolean) => {
-    if (onHover && marker) {
+    if (onHover && markerObjRef.current) {
       onHover({
         isHovered,
         position: { longitude, latitude },
-        marker,
+        marker: markerObjRef.current,
         data,
       });
     }
   };
 
   const handleClick = () => {
-    if (onClick && marker) {
+    if (onClick && markerObjRef.current) {
       onClick({
         position: { longitude, latitude },
-        marker,
+        marker: markerObjRef.current,
         data,
       });
     }
@@ -85,13 +84,16 @@ export default function Marker<T = unknown>({
       ...props,
     };
 
-    marker = new mapboxgl.Marker(options)
+    markerObjRef.current = new mapboxgl.Marker(options)
       .setLngLat([longitude, latitude])
       .addTo(map);
 
     return () => {
       // Cleanup on unmount
-      if (marker) marker.remove();
+      if (markerObjRef.current) {
+        markerObjRef.current.remove();
+        markerObjRef.current = null;
+      }
       if (markerEl) {
         markerEl.removeEventListener("mouseenter", handleMouseEnter);
         markerEl.removeEventListener("mouseleave", handleMouseLeave);
